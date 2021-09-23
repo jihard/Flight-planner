@@ -21,6 +21,7 @@ namespace Flightplanner.API.Autentication
                     ISystemClock clock) : base(options, logger, encoder, clock)
         {
         }
+
         protected override async Task<AuthenticateResult> HandleAuthenticateAsync()
         {
             var endpoint = Context.GetEndpoint();
@@ -55,11 +56,13 @@ namespace Flightplanner.API.Autentication
 
             return AuthenticateResult.Success(ticket);
         }
+
         protected override Task HandleChallengeAsync(AuthenticationProperties properties)
         {
             Response.Headers["WWW-Authenticate"] = "Basic realm=\"\", charset=\"UTF-8\"";
             return base.HandleChallengeAsync(properties);
         }
+
         public async Task<bool> Authenticate(string username, string password)
         {
             return username == "codelex-admin" && password == "Password123";

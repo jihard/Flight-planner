@@ -10,19 +10,23 @@ namespace Flightplanner.API.Storage
         private static List<Flight> _flights;
         private static int _flightId;
         private static object _flightsLock = new();
+
         static FlightsStorage()
         {
             _flights = new List<Flight>();
             _flightId = 1;
         }
+
         public static void ClearFlightsList()
         {
             _flights.Clear();
         }
+
         public static List<Flight> GetFlights()
         {
             return _flights;
         }
+
         public static Flight FlightById(int id)
         {
             lock (_flightsLock)
@@ -30,6 +34,7 @@ namespace Flightplanner.API.Storage
                 return _flights.FirstOrDefault(f => f.Id == id);
             }
         }
+
         public static Flight SearchFlight(SearchFlights search)
         {
             lock (_flightsLock)
@@ -39,13 +44,13 @@ namespace Flightplanner.API.Storage
                    i.DepartureTime.Substring(0, 10) == search.DepartureDate))
                 {
                     Flight _flight = _flights.FirstOrDefault(i => i.From.AirportCode == search.From &&
-                        i.To.AirportCode == search.To && i.DepartureTime.Substring(0, 10) == search.DepartureDate);
-
+                    i.To.AirportCode == search.To && i.DepartureTime.Substring(0, 10) == search.DepartureDate);
                     return _flight;
                 }
                 return null;
             }
         }
+
         public static Flight AddFlight(AddFlight nextFlight)
         {
             lock (_flightsLock)
@@ -75,6 +80,7 @@ namespace Flightplanner.API.Storage
                 return flight;
             }
         }
+
         public static bool IsFlightAcceptable(AddFlight _flight)
         {
             if (_flight.From == null ||
@@ -96,10 +102,12 @@ namespace Flightplanner.API.Storage
                 return true;
             }
         }
+
         public static bool IsAirportAcceptable(AddFlight flight)
         {
             return string.Equals(flight.From.AirportCode.Replace(" ", string.Empty), flight.To.AirportCode.Replace(" ", string.Empty), StringComparison.CurrentCultureIgnoreCase);
         }
+
         public static bool IsOnFlightsBoard(AddFlight nextFlight)
         {
             lock (_flightsLock)
@@ -123,10 +131,12 @@ namespace Flightplanner.API.Storage
                 return false;
             }
         }
+
         public static bool IsStrangeDate(AddFlight _flight)
         {
             return DateTime.Parse(_flight.DepartureTime) >= DateTime.Parse(_flight.ArrivalTime);
         }
+
         public static void DeleteFlight(int id)
         {
             lock (_flightsLock)
