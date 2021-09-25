@@ -1,5 +1,4 @@
-﻿
-namespace Flightplanner.API.Models
+﻿namespace Flightplanner.API.Models
 {
     public class Flight
     {

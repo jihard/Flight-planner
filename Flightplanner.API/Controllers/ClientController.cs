@@ -9,12 +9,10 @@ namespace Flightplanner.API.Controllers
 {
     [ApiController]
     [Route("api")]
-
     public class CustomerApiController : ControllerBase
     {
         [HttpGet]
         [Route("airports")]
-
         public Airport[] ReturnAirport(string search)
         {
             return AirportsStorage.GetAirport(search);
@@ -22,7 +20,6 @@ namespace Flightplanner.API.Controllers
 
         [HttpPost]
         [Route("flights/search")]
-
         public ActionResult<PageResult> ReturnFlights(SearchFlights search)
         {
             Flight _flight = FlightsStorage.SearchFlight(search);
@@ -35,7 +32,7 @@ namespace Flightplanner.API.Controllers
             }
             else if (_flight != null)
             {
-                PageResult result = new PageResult
+                return new PageResult
                 {
                     Page = 0,
                     TotalItems = 1,
@@ -44,7 +41,6 @@ namespace Flightplanner.API.Controllers
                         _flight
                     }
                 };
-                return result;
             }
             else
             {
@@ -59,7 +55,6 @@ namespace Flightplanner.API.Controllers
 
         [HttpGet]
         [Route("flights/{id:int}")]
-
         public ActionResult<Flight> ReturnFlightById(int id)
         {
             var flight = FlightsStorage.FlightById(id);

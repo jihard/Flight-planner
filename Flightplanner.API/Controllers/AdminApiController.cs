@@ -9,7 +9,6 @@ namespace Flightplanner.API.Controllers
     [ApiController]
     [Route("admin-api/flights")]
     [Authorize]
-
     public class AdminApiController : ControllerBase
     {
         [HttpGet]
@@ -20,7 +19,6 @@ namespace Flightplanner.API.Controllers
 
         [HttpGet]
         [Route("{id:int}")]
-
         public ActionResult<Flight> ReturnFlight(int id)
         {
             var _flight = FlightsStorage.FlightById(id);
